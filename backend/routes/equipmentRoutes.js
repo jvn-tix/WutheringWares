@@ -26,11 +26,14 @@ router.get(
     getEquipmentById
 );
 
+const upload = require('../middleware/uploadMiddleware');
+
 router.post(
-    '/equipments',
-    authMiddleware,
-    adminMiddleware,
-    addEquipment
+  '/',
+  authMiddleware,
+  adminMiddleware,
+  upload.single('image'),
+  createEquipment
 );
 
 router.put(

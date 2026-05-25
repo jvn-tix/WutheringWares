@@ -169,3 +169,27 @@ exports.deleteEquipment = (req, res) => {
         }
     );
 };
+
+const image = req.file
+  ? `/uploads/${req.file.filename}`
+  : null;
+
+
+const page = parseInt(req.query.page) || 1;
+
+const limit = parseInt(req.query.limit) || 10;
+
+const offset = (page - 1) * limit;
+
+const [equipments] = await db.query(
+  'SELECT * FROM equipments LIMIT ? OFFSET ?',
+  [limit, offset]
+);
+
+const search = req.query.search || '';
+
+const [equipments] = await db.query(
+  'SELECT * FROM equipments WHERE name LIKE ?',
+  [`%${search}%`]
+);
+
